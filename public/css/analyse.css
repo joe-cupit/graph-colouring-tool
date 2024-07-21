@@ -1,0 +1,532 @@
+#mainDiv {
+    height: 730px;
+    margin-top: 5px;
+}
+
+
+#controlsDiv {
+    width: 250px;
+    height: 90%;
+    float: left;
+
+    margin-top: 60px;
+    margin-right: 10px;
+    padding: 5px;
+
+    cursor: default;
+}
+
+.controlsDiv {
+    background: white;
+    border-radius: 5px;
+}
+#controlsDiv.disabled  div {
+    border-color: gray;
+    color: gray;
+}
+
+
+#controlsDiv hr {
+    width: 90%;
+    margin-left: 3px;
+}
+#controlsDiv h1 {
+    margin-bottom: 0;
+}
+
+.algorithmBox:checked + label {
+    font-weight: bold;
+}
+.algorithmBox:checked:enabled {
+    cursor: pointer;
+}
+.algorithmBox:hover:enabled + label, .algorithmBox:enabled + label:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+#algorithmOptionDiv h3 {
+    padding-bottom: 3px;
+}
+
+.topInputs {
+    width: 50px;
+}
+
+.optionDiv {
+    width: 220px;
+    margin: auto;
+    padding: 5px;
+}
+
+#analyseButton {
+    font-size: 1.5em;
+}
+
+#optionButtonDiv {
+    margin-top: 15px;
+    margin-left: 75px;
+}
+
+#elapsedTimeDiv {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    width: 150px;
+    height: 60px;
+    padding: 10px;
+    padding-left: 15px;
+}
+
+
+/* RESULTS DIV */
+#analysetab0 {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: rgba(256, 256, 256, 0.7);
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+#analysetab0mini {
+    width: 16%;
+    height: 60px;
+    padding: 10px;
+    position: absolute;
+    color: rgba(10, 10, 10, 0.6);
+    background: rgba(256, 256, 256, 0.6);
+    border-radius: 5px;
+    bottom: 5px;
+    left: 41%;
+    cursor: pointer;
+
+    transition-duration: .2s;
+}
+#analysetab0mini:hover {
+    background: white;
+    color: #0a0a0a;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+#loadingBackground {
+    width: 700px;
+    height: 300px;
+    margin: auto;
+    margin-top: 110px;
+    padding-top: 80px;
+}
+
+#miniTimerDiv {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#loadingDiv {
+    width: 280px;
+    height: 200px;
+    margin: auto;
+}
+.lds-grid {
+    margin-left: 60px;
+}
+
+#loadingText {
+    text-align: center;
+}
+#loadingText h1 {
+    margin: 0;
+}
+#timer {
+    font-size: 1.2em;
+    margin: auto;
+}
+
+#loadingHide {
+    position: absolute;
+    bottom: 10px;
+
+    text-align: center;
+    cursor: pointer;
+    margin-left: 97px;
+}
+#loadingHide:hover {
+    text-decoration: underline;
+}
+
+
+.tabs {
+    left: 1em;
+    top: 0;
+    width: 90%;
+    z-index: 999;
+}
+.tab-label:hover {
+    transition: 0.1s;
+}
+.tab-switch:checked + .tab-label {
+    background: white;
+    margin-top: 0;
+}
+.tab-label {
+    margin-top: .15em;
+}
+
+
+.resultsTitle {
+    width: 100%;
+    margin-left: 10px;
+    margin-top: 3px;
+}
+.resultsTitle h1 {
+    display: inline;
+}
+
+#resultsDiv {
+    width: 1100px;
+    height: 100%;
+    float: left;
+    position: relative;
+
+    margin: 10px;
+    cursor: default;
+}
+
+#resultsContainer {
+    position: absolute;
+    width: 100%;
+    height: 93.5%;
+    margin-top: 34px;
+
+    border: 3px solid black;
+    border-radius: 5px;
+    background: white;
+    padding: 5px;
+    padding-left: 12px;
+}
+
+.resultSection {
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+}
+
+#legendContainer {
+    text-align: center;
+}
+
+div.legendBlock {
+    width: 35px;
+    height: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 2px;
+    margin-right: 5px;
+    margin-bottom: 3px;
+}
+#legendContainer ul {
+    margin: 5px 0;
+    padding: 0;
+}
+#legendContainer li {
+    list-style: none;
+    display: inline-block;
+    margin-right: 20px;
+    cursor: pointer;
+}
+#legendContainer li.charthidden {
+    text-decoration: line-through;
+}
+
+#chartDiv {
+    width: 100%;
+    height: 360px;
+    float: left;
+}
+#colourChartDiv, #timeChartDiv {
+    width: 45%;
+    height: 100%;
+    float: left;
+    margin: 0 10px;
+    padding: 5px 15px;
+}
+#chartDiv canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.upperResultDiv {
+    width: 92%;
+    height: 50px;
+    float: left;
+    vertical-align: middle;
+    margin: 10px 20px;
+    padding: 0 15px;
+}
+#legendContainer {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -64%);
+}
+
+#lowerResultDiv {
+    width: 94.5%;
+    float: left;
+    margin: 20px 10px;
+    margin-bottom: 0;
+    padding: 5px 15px;
+}
+.upperResultsDiv {
+    height: 100px;
+}
+#lowerResultsDiv {
+    height: 200px;
+}
+#averageChartDiv {
+    width: 40%;
+    height: 200px;
+    float: left;
+    margin-right: 20px;
+    padding: 5px 15px;
+}
+#otherStatsDiv {
+    width: 52%;
+    height: 200px;
+    float: left;
+    padding: 5px 15px;
+    padding-left: 15px;
+}
+
+#statsDiv {
+    width: 55%;
+    height: 100%;
+    float: left;
+    padding: 5px;
+    margin-top: 30px;
+}
+#donutChartDiv {
+    width: 40%;
+    height: 100%;
+    float: left;
+}
+
+#tableDataDiv {
+    width: 66%;
+    height: 245px;
+    float: left;
+    margin: 10px 10px 0px 26px;
+    padding: 5px 15px;
+}
+#individualAboutDiv {
+    width: 33%;
+    height: 100%;
+    float: left;
+
+    margin: 0px 10px;
+    padding: 10px 5px;
+}
+#graphSelectedDiv {
+    font-size: .95em;
+}
+#noneSelected {
+    text-align: center;
+    padding-top: 23%;
+}
+#individualChartDiv {
+    width: 60%;
+    height: 100%;
+    float: left;
+}
+
+/* TABLE ABOUT SECTION */
+#tableAboutDiv {
+    width: 20%;
+    height: 225px;
+    float: left;
+    margin: 10px 10px 0px 10px;
+    padding: 15px 20px;
+}
+#downloadButton {
+    float: left;
+    display: inline;
+    margin-right: 8px;
+}
+
+
+/* ACTUAL TABLE */
+
+#tableContainer {
+    margin: 10px 10px 0px 10px;
+    padding: 5px;
+    width: 96.3%;
+    height: 390px;
+    float: left;
+}
+
+#tableDiv {
+    margin: 10px;
+    width: 98%;
+    max-height: 95%;
+    float: left;
+    overflow-y: auto;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#tableDiv::-webkit-scrollbar {
+    display: none;
+}
+
+#graphTable {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    table-layout: fixed;
+    float: left;
+    background: white;
+    cursor: default;
+    border-radius: 10px;
+}
+#graphTable td {
+    padding: 5px 8px;
+}
+
+#graphTable thead tr {
+    background-color: #7a6bb5;
+    color: #ffffff;
+    border-top: none;
+}
+
+#graphTable thead {
+    position: sticky;
+    top: 0;
+    box-shadow: 0 -2px 8px 8px rgba(0, 0, 0, 0.15);
+}
+
+#graphTable tbody tr {
+    border-bottom: 1px solid #dddddd;
+    cursor: pointer;
+}
+#graphTable tbody tr:nth-of-type(even) {
+    background-color: #f2eef1;
+}
+
+#graphTable thead tr:nth-of-type(even) td:nth-of-type(even),
+#graphTable thead tr:nth-of-type(odd) td,
+#graphTable tbody td:nth-of-type(even) {
+    border-left: 1px solid #433b64;
+}
+#graphTable thead tr:nth-of-type(odd) td:nth-child(1),
+#graphTable thead tr:nth-of-type(odd) td:nth-child(2),
+#graphTable thead tr:nth-of-type(odd) td:nth-child(3),
+#graphTable thead tr:nth-of-type(even) td:nth-child(2),
+#graphTable tbody td:nth-child(2) {
+    border-left: none;
+}
+
+#graphTable tbody tr:last-of-type {
+    border-bottom: 5px solid #7a6bb5;
+}
+
+#graphTable tbody tr:hover {
+    color: #7a6bb5;
+    font-weight: bold;
+}
+#graphTable tbody tr.active {
+    background: #9485d1;
+    color: white;
+    font-weight: bold;
+}
+
+
+/* DOUBLE SLIDER */
+.range_container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin-top: 10px;
+}
+.sliders_control {
+    position: relative;
+    height: 10px;
+    line-height: 10px;
+    margin-top: 5px;
+}
+
+.form_control {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1em;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    pointer-events: all;
+    width: 14px;
+    height: 14px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px #C6C6C6;
+}
+
+input[type=range]::-moz-range-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    pointer-events: all;
+    width: 24px;
+    height: 24px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px #C6C6C6;
+}
+
+#fromSlider::-webkit-slider-thumb, #fromSlider2::-webkit-slider-thumb {
+    margin-top: 2.5px;
+}
+
+input[type=range]:enabled::-webkit-slider-thumb:hover {
+    background: #f7f7f7;
+    cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-thumb:active {
+    border: 1px solid #7a6bb5;
+}
+
+input.form_control_container__time__input {
+    color: #292929;
+    background-color: #fefefe;
+    width: 50px;
+    height: 20px;
+    font-size: 1em;
+    border: none;
+}
+input.form_control_container__time__input:disabled {
+    color: #acabab;
+}
+
+input.form_control_container__time__input::-webkit-inner-spin-button, 
+input.form_control_container__time__input::-webkit-outer-spin-button {  
+    opacity: 1;
+    color: #f7f7f7;
+}
+
+input[type="range"] {
+    -webkit-appearance: none; 
+    appearance: none;
+    height: 3px;
+    width: 100%;
+    position: absolute;
+    background-color: #C6C6C6;
+    pointer-events: none;
+}
+
+#fromSlider, #fromSlider2 {
+    height: 0;
+    z-index: 1;
+}

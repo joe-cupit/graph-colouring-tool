@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Graph Colouring</title>
+    <link type="image/png" sizes="32x32" rel="icon" href="static/images/icon.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/loadanim.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <div class="topnav">
+      <div class="topnav-centered">
+        <a href="/compare"><i class="fa-solid fa-bars-progress"></i> Compare</a>
+        <a class="active"><i class="fa-solid fa-circle-nodes"></i> Graph</a>
+        <a href="/analyse"><i class="fa-solid fa-chart-line"></i> Analysis</a>
+      </div>
+    </div>
+
+    <div id="mainDiv">
+      <div id="leftDiv">
+
+        <div id="newgraphDiv" class="controls">
+          <h2>Create a Graph</h2>
+          <div id="generateDiv">
+            <h3>Generate a random graph</h3>
+            <form onsubmit="generateButtonClicked(event)" style="margin-top: 10px;">
+              <input id="vertexInput" type="number" min="2" value="17" onkeyup="refreshEdgeTotal()">
+              vertices,
+              <input id="edgeInput" type="range" min="0" max="100" value="45" oninput="refreshEdgeTotal()">
+              <output id="edgeTotal" for="vertexInput edgeInput"></output>
+              edges.
+            </form>
+            <button id="generateButton" class="bluebutton" onclick="generateButtonClicked(event)">Generate</button>
+          </div>
+          
+          <div id="loadDiv">
+            <h3>Load an existing graph</h3>
+            
+            <form>
+              <select id="graphSelect">
+                <option value="">Choose an example</option>
+                <option value="ex1">Example 1: K=4</option>
+                <option value="ex2">Example 2: K=11</option>
+                <option value="ex3">Example 3: K=13</option>
+                <option value="ex4">Example 4: K=65</option>
+              </select>
+            </form>
+            <br>
+            <span>-or-</span>
+            <br>
+
+            <div style="margin-top: 10px; margin-bottom: 15px;">
+            <input type="file" id="graphInput" name="graphInput" accept=".col" hidden/>
+            <label for="graphInput" class="bluebutton">Upload a file</label>
+            </div>
+
+            <span id="fileChosen"><i>No file selected.</i></span>
+            <button id="displayButton" class="bluebutton" onclick="displayButtonClicked()" style="float:middle" disabled>Load Graph</button>
+          </div>
+        </div>
+
+        <div id="arrangeDiv" class="controls">
+          <h2>Arrange</h2>
+          Choose a layout for your graph
+          <form style="font-size: 1.2em;">
+            <input id="circleLayoutButton" type="radio" name="layout" onclick="circleLayout()" value="circle" checked>
+            <label for="circleLayoutButton">Circular</label>
+            <br>
+            <input id="randomLayoutButton" type="radio" name="layout" onclick="randomLayout()" value="random">
+            <label for="randomLayoutButton">Random</label>
+            <br>
+            <input id="k&kButton" type="radio" name="layout" onclick="layout_graph()" value="k&k">
+            <label for="k&kButton">Kamada & Kawai</label>
+            <br>
+            <input id="customLayoutButton" type="radio" name="layout" value="custom">
+            <label for="customLayoutButton">Custom</label>
+          </form>
+        </div>
+
+      </div>
+
+      <div id="graphDiv">
+      
+        <div class="tabs">
+          <div class="tab">
+            <input type="radio" name="css-tabs" id="focusButton" checked class="tab-switch" onclick="updateEditMode('focus')">
+            <label for="focusButton" class="tab-label"><i class="fa-solid fa-up-down-left-right"></i> Move/Focus</label>
+          </div>
+          <div class="tab">
+            <input type="radio" name="css-tabs" id="addButton" class="tab-switch" onclick="updateEditMode('add')">
+            <label for="addButton" class="tab-label"><i class="fa-solid fa-plus"></i> Add</label>
+          </div>
+          <div class="tab">
+            <input type="radio" name="css-tabs" id="delButton" class="tab-switch" onclick="updateEditMode('del')">
+            <label for="delButton" class="tab-label"><i class="fa-solid fa-minus"></i> Remove</label>
+          </div>
+
+          <div class="tab-right">
+            <div id="downloadTab">
+              <i id="downloadGraphButton" onclick="downloadButtonClicked()" title="Download graph" class="fa-solid fa-download"></i>
+            </div>
+          </div>
+          <div class="tab-right">
+            <button id="clearButton" class="tab-switch" onclick="clearSVG()"></button>
+            <label for="clearButton" class="tab-label"><i class="fa-solid fa-trash-can"></i> Clear</label>
+          </div>
+        </div>
+
+        <svg id="graphSVG">
+          <g id="graphElements" transform="matrix(1 0 0 1 0 0)">
+            <g id="graphEdges" class="edges"></g>
+            <g id="graphVertices" class="vertices"></g>
+          </g>
+        </svg>
+
+        <div id="aboutDiv">
+          <b>Vertices:</b> <span id="aboutVertices">0</span>,
+          <b>Edges:</b> <span id="aboutEdges">0</span>
+          <b class="hidden">Colours:</b> <span id="aboutColours" class="hidden">n/a</span>
+
+          <div id="rightAboutDiv">
+            <i onmousedown="zoomBy(0.9)" title="Zoom out" class="fa-solid fa-magnifying-glass-minus"></i>
+            <i onmousedown="zoomBy(1.1)" title="Zoom in" class="fa-solid fa-magnifying-glass-plus"></i>
+            <i onclick="zoomToFit()" title="Zoom-to-fit" class="fa-solid fa-expand"></i>
+          </div>
+        </div>
+      </div>
+
+      <div id="rightDiv">
+        <div id="colourDiv" class="controls">
+          <h2>Colour</h2>
+          Select a graph colouring algorithm
+          <form style="display:inline-block; vertical-align: middle; margin-top: 4px;">
+            <select id="algorithmSelect" onchange="newAlgorithm()">
+              <option value="greedy-random">Greedy Colouring (Random)</option>
+              <option value="greedy-ordered">Greedy Colouring (by Degree)</option>
+              <option value="greedy-smallest">Greedy Colouring (Smallest Last)</option>
+              <option value="DSatur">DSatur</option>
+              <option value="RLF">Recursive Largest First</option>
+              <hr>
+              <option value="Acontraction">Addition Contraction</option>
+              <option value="Dcontraction">Deletion Contraction</option>
+              <option value="exhaustive">Exhaustive Colouring</option>
+            </select>
+          </form>
+
+          <i><span id="algorithmDesc"></span></i>
+          <br>
+          <br>
+
+          <button id="colourButton" class="bluebutton" disabled="true" onclick="colourButtonClicked()">Colour Graph</button>
+
+        </div>
+
+        <div id="colourInfoDiv" class="controls">
+          <div id="bottomColourDiv">
+            <h3 id="algorithmTitle">Colour graph for details</h3>
+            <div id="colourDetails" class="hidden">
+              <span id="colourNum">n/a</span> colours in <span id="colourTime">n/a s</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="histDiv" class="controls">
+          <h2>History</h2>
+          <u id="clearHistory" onclick="clearHistory()">clear history</u>
+          <div id="historyDiv">
+            <ul id="historyList" style="margin: 3px; padding-left: 15px;"></ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="botbar"></div>
+    <div class="displaynone">
+      <input id="edgeString"/>
+      <input id="colourString"/>
+    </div>
+
+  </body>
+
+  <!-- Constants -->
+  <script src="/static/scripts/formatting/constants.js"></script>
+
+  <!-- External Scripts -->
+  <script src="https://kit.fontawesome.com/228f400cae.js" crossorigin="anonymous"></script>
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+
+  <!-- Formatting -->
+  <script src="/static/scripts/formatting/formatText.js"></script>
+  <script src="/static/scripts/formatting/graphStrings.js"></script>
+
+  <!-- Canvas States -->
+  <script src="/static/scripts/canvasStates/controlEditModes.js"></script>
+  <script src="/static/scripts/canvasStates/focusVertices.js"></script>
+  <script src="/static/scripts/canvasStates/dragVertices.js"></script>
+  <script src="/static/scripts/canvasStates/addElements.js"></script>
+  <script src="/static/scripts/canvasStates/deleteElements.js"></script>
+
+  <!-- Graph Visuals -->
+  <script src="/static/scripts/graphVisuals/displayGraph.js"></script>
+  <script src="/static/scripts/graphVisuals/colourGraph.js"></script>
+  <script src="/static/scripts/graphVisuals/graphLayouts.js"></script>
+  <script src="/static/scripts/graphVisuals/panAndZoom.js"></script>
+
+  <!-- Actions -->
+  <script src="/static/scripts/actions/buttonFunctions.js"></script>
+  <script src="/static/scripts/actions/passiveActions.js"></script>
+
+  <script src="/static/scripts/other.js"></script>
+
+  <script type="text/javascript">
+    refreshEdgeTotal();
+    newAlgorithm();
+    updateHistory();
+
+    initialiseIndexGraph();
+  </script>
+
+</html>

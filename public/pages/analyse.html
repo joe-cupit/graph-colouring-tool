@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Graph Analysis</title>
+    <link type="image/png" sizes="32x32" rel="icon" href="static/images/icon.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- CSS -->
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/loadanim.css" rel="stylesheet">
+    <link href="/static/css/analyse.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="topnav">
+        <div class="topnav-centered">
+          <a href="/compare"><i class="fa-solid fa-bars-progress"></i> Compare</a>
+          <a href="/"><i class="fa-solid fa-circle-nodes"></i> Graph</a>
+          <a class="active"><i class="fa-solid fa-chart-line"></i> Analysis</a>
+        </div>
+    </div>
+
+    <div id="mainDiv">
+        <div id="controlsDiv" class="controlsDiv">
+                <div class="optionDiv" style="border:none">
+                    <h1>Set up:</h1>
+                </div>
+
+
+                <div id="graphOptionDiv" class="optionDiv" style="border:none">
+                    <h2>Graphs</h2>
+                    Number of graphs: <input id="graphN" class="topInputs" type="number" min="1" max="1000" value="50" />
+                    <br>
+                    Iterations per graph: <input id="iterN" class="topInputs" type="number" min="1" max="100" value="1" />
+                    <br>
+
+                    <div class="range_container">
+                        <h3>Vertex Count</h3>
+                        <div class="sliders_control">
+                            <input id="fromSlider" type="range" value="20" min="2" max="250"/>
+                            <input id="toSlider" type="range" value="80" min="2" max="250"/>
+                        </div>
+                        <div class="form_control">
+                            <div class="form_control_container">
+                                <input class="form_control_container__time__input" type="number" id="nodesFrom" value="20" min="2" max="200"/>
+                                <div class="form_control_container__time">min</div>
+                            </div>
+                            <div class="form_control_container">
+                                <input class="form_control_container__time__input" type="number" id="nodesTo" value="80" min="2" max="250"/>
+                                <div class="form_control_container__time">max</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="range_container">
+                        <h3>Edge Density</h3>
+                        <div class="sliders_control">
+                            <input id="fromSlider2" type="range" value="60" min="0" max="100"/>
+                            <input id="toSlider2" type="range" value="80" min="0" max="100"/>
+                        </div>
+                        <div class="form_control">
+                            <div class="form_control_container">
+                                <input class="form_control_container__time__input" type="number" id="densityFrom" value="60" min="0" max="100"/>
+                                <div class="form_control_container__time">min %</div>
+                            </div>
+                            <div class="form_control_container">
+                                <input class="form_control_container__time__input" type="number" id="densityTo" value="80" min="0" max="100"/>
+                                <div class="form_control_container__time">max %</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="algorithmOptionDiv" class="optionDiv">
+                    <h2>Algorithms</h2>
+                    <input type="checkbox" id="checkGreedy" name="greedy-random" class="algorithmBox" checked>
+                    <label for="checkGreedy"> Greedy Colouring (R)</label><br>
+                    <input type="checkbox" id="checkGreedy2" name="greedy-ordered" class="algorithmBox" checked>
+                    <label for="checkGreedy2"> Greedy Colouring (D)</label><br>
+                    <input type="checkbox" id="checkGreedy3" name="greedy-smallest" class="algorithmBox" checked>
+                    <label for="checkGreedy3"> Greedy Colouring (S-L)</label><br>
+                    <input type="checkbox" id="checkDSatur" name="DSatur" class="algorithmBox" checked>
+                    <label for="checkDSatur"> DSatur</label><br>
+                    <input type="checkbox" id="checkRLF" name="RLF" class="algorithmBox">
+                    <label for="checkRLF"> Recursive Largest First</label>
+                    <hr>
+                    <input type="checkbox" id="checkAC" name="Acontraction" class="algorithmBox">
+                    <label for="checkAC"> Addition Contraction</label><br>
+                    <input type="checkbox" id="checkDC" name="Dcontraction" class="algorithmBox">
+                    <label for="checkDC"> Deletion Contraction</label><br>
+                    <input type="checkbox" id="checkEx" name="exhaustive" class="algorithmBox">
+                    <label for="checkEx"> Exhaustive Colouring</label><br>
+                </div>
+
+                <div id="optionButtonDiv" class="optionDiv">
+                    <button id="analyseButton" class="bluebutton" onclick="startAnalysis()">Start</button>
+                </div>
+            
+        </div>
+
+        <div id="resultsDiv">
+            <div class="tabs">
+                <div class="tab">
+                  <input type="radio" name="css-tabs" id="chartsButton" checked class="tab-switch" onclick="switchAnalysisTabs('charts')">
+                  <label for="chartsButton" class="tab-label"><i class="fa-solid fa-chart-line"></i> Charts</label>
+                </div>
+                <div class="tab">
+                  <input type="radio" name="css-tabs" id="tableButton" class="tab-switch" onclick="switchAnalysisTabs('table')">
+                  <label for="tableButton" class="tab-label"><i class="fa-solid fa-table"></i> Table</label>
+                </div>
+            </div>
+
+            <div id="resultsContainer">
+                <div id="analysetab0mini" style="display: none" onclick="showLoadingScreen()">
+                    <div id="miniTimerDiv">
+                        running analysis:
+                        <h1><span id="minitimer">00:00:00</span></h1>
+                    </div>
+                </div>
+                <div id="analysetab0" style="display: none">
+                    <div id="loadingBackground">
+                        <div id="loadingDiv">
+                            <div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                            <div id="loadingText">
+                                <h1>running analysis:</h1>
+                                <h1><span id="timer">00:00:00</span></h1>
+                            </div>
+
+                            <div id="loadingHide" onclick="hideLoadingScreen()">hide overlay</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="analysetab1">
+
+                    <div class="upperResultDiv resultSection">
+                        <div id="legendContainer"></div>
+                    </div>
+
+                    <div id="chartDiv">
+                        <div id="colourChartDiv" class="resultSection">
+                            <canvas id="colourChart"></canvas>
+                        </div> 
+                        <div id="timeChartDiv" class="resultSection">
+                            <canvas id="timeChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="lowerResultDiv">
+                        <div id="averageChartDiv" class="resultSection">
+                            <canvas id="averageChart"></canvas>
+                        </div>
+                        <div id="otherStatsDiv" class="resultSection">
+                            <div id="statsDiv"></div>
+                            <div id="donutChartDiv">
+                                <canvas id="donutChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="analysetab2" style="display: none">
+                    <div id="tableDataDiv" class="resultSection">
+                        <div id="individualAboutDiv" class="hiddenbeforeanalysis" style="display: none">
+                            <h2 id="noneSelected">Select a graph from the table for more details</h2>
+                            <div id="graphSelectedDiv"></div>
+                        </div>
+
+                        <div id="individualChartDiv">
+                            <canvas id="individualChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="tableAboutDiv" class="resultSection">
+                        <div class="hiddenbeforeanalysis" style="display: none">
+                            <h2>About the data</h2>
+
+                            <span id="tableAboutSpan"></span>
+    
+                            <button id="downloadButton" class="bluebutton" onclick="downloadDataAsJson()">Download Data</button>
+                            <span id="dataSize"></span>
+                        </div>
+                    </div>
+        
+                    <div id="tableContainer" class="resultSection">
+                        <div id="tableDiv">
+                            <table id="graphTable"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="botbar"></div>
+
+</body>
+
+  <!-- External Scripts -->
+  <script src="https://kit.fontawesome.com/228f400cae.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+
+  <!-- Page Scripts -->
+  <script src="/static/scripts/analysis/analyseController.js"></script>
+  <script src="/static/scripts/analysis/analysisCharts.js"></script>
+  <script src="/static/scripts/analysis/sliderControl.js"></script>
+
+  <script src="/static/scripts/formatting/formatText.js"></script>
+
+</html>

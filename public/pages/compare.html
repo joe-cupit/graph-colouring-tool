@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Graph Comparison</title>
+  <link type="image/png" sizes="32x32" rel="icon" href="static/images/icon.png">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- CSS -->
+  <link href="/static/css/style.css" rel="stylesheet">
+  <link href="/static/css/compare.css" rel="stylesheet">
+
+</head>
+<body>
+
+  <div class="topnav">
+    <div class="topnav-centered">
+      <a class="active"><i class="fa-solid fa-bars-progress"></i> Compare</a>
+      <a href="/"><i class="fa-solid fa-circle-nodes"></i> Graph</a>
+      <a href="/analyse"><i class="fa-solid fa-chart-line"></i> Analysis</a>
+    </div>  
+  </div>
+
+  <div id="multigraphDiv">
+      <table id="graphTable"></table>
+  </div>
+
+  <div id="bottomDiv">
+    <div id="pmcounter" class="number">
+      <span id="pmminus" onclick="updateCount(-1)">-</span>
+      <input id="pminput" type="text" value="2" onchange="updateCount()"/>
+      <span id="pmplus" onclick="updateCount(1)">+</span>
+    </div>
+    <div>
+      <button id="startCompareButton" class="bluebutton" onclick="startButton()">Start</button>
+    </div>
+  </div>
+
+  <span id="overlaySpan" class="displaynone">
+    <div id="editGraphOverlay" onclick="hideOverlay()"></div>
+    <div id="leftDiv">
+      <div id="newgraphDiv" class="controls">
+        <h2>Create a Graph</h2>
+        <div id="generateDiv">
+          <h3>Generate a random graph</h3>
+          <form onsubmit="generateButtonClicked(event)" style="margin-top: 10px;">
+            <input id="vertexInput" type="number" min="2" value="7" onkeyup="refreshEdgeTotal()">
+            vertices,
+            <input id="edgeInput" type="range" min="0" max="100" value="15" oninput="refreshEdgeTotal()">
+            <output id="edgeTotal" for="vertexInput edgeInput"></output>
+            edges.
+          </form>
+          <button id="generateButton" class="bluebutton" onclick="generateButtonClicked(event)" style="float:middle">Generate</button>
+        </div>
+        
+        <div id="loadDiv">
+          <h3>Load an existing graph</h3>
+          
+          <form>
+            <select id="graphSelect">
+              <option value="">Choose an example</option>
+              <option value="ex1">Example 1: K=4</option>
+              <option value="ex2">Example 2: K=11</option>
+              <option value="ex3">Example 3: K=13</option>
+              <option value="ex4">Example 4: K=65</option>
+            </select>
+          </form>
+          <br>
+          <span>-or-</span>
+          <br>
+
+          <input type="file" id="graphInput" name="graphInput" accept=".col" hidden/>
+          <label for="graphInput">Upload a file</label>
+
+          <br><br>
+          <span id="fileChosen">No file selected.</span>
+          <button id="displayButton" class="bluebutton" onclick="displayButtonClicked()" style="float:middle" disabled>Load</button>
+        </div>
+      </div>
+
+      <div id="arrangeDiv" class="controls">
+        <h2>Arrange</h2>
+        Choose a layout for your graph
+        <form style="font-size: 1.2em;">
+          <input id="circleLayoutButton" type="radio" name="layout" onclick="circleLayout()" value="circle" checked>
+          <label for="circleLayoutButton">Circular</label>
+          <br>
+          <input id="randomLayoutButton" type="radio" name="layout" onclick="randomLayout()" value="random">
+          <label for="randomLayoutButton">Random</label>
+          <br>
+          <input id="k&kButton" type="radio" name="layout" onclick="layout_graph()" value="k&k">
+          <label for="k&kButton">Kamada & Kawai</label>
+          <br>
+          <input id="customLayoutButton" type="radio" name="layout" value="custom">
+          <label for="customLayoutButton">Custom</label>
+        </form>
+      </div>
+    </div>
+
+    <div id="graphDiv">
+      <div class="tabs">
+        <div class="tab">
+          <input type="radio" name="css-tabs" id="focusButton" checked class="tab-switch" onclick="updateEditMode('focus')">
+          <label for="focusButton" class="tab-label"><i class="fa-solid fa-up-down-left-right"></i> Move/Focus</label>
+        </div>
+        <div class="tab">
+          <input type="radio" name="css-tabs" id="addButton" class="tab-switch" onclick="updateEditMode('add')">
+          <label for="addButton" class="tab-label"><i class="fa-solid fa-plus"></i> Add</label>
+        </div>
+        <div class="tab">
+          <input type="radio" name="css-tabs" id="delButton" class="tab-switch" onclick="updateEditMode('del')">
+          <label for="delButton" class="tab-label"><i class="fa-solid fa-minus"></i> Remove</label>
+        </div>
+
+        <div class="tab-right">
+          <button id="clearButton" class="tab-switch" onclick="clearSVG()"></button>
+          <label for="clearButton" class="tab-label"><i class="fa-solid fa-trash-can"></i> Clear</label>
+        </div>
+      </div>
+
+      <svg id="graphSVG">
+        <g id="graphElements" transform="matrix(1 0 0 1 0 0)">
+          <g id="graphEdges" class="edges"></g>
+          <g id="graphVertices" class="vertices"></g>
+        </g>
+
+        <g id="aboutElements">
+          <text x="15" y="635">
+            <tspan class="bold">Vertices: </tspan> <tspan id="aboutVertices" class="normal">7</tspan>
+            <tspan class="bold">Edges: </tspan> <tspan id="aboutEdges" class="normal">8</tspan>
+            <tspan class="bold">Colours: </tspan> <tspan id="aboutColours" class="normal">n/a</tspan>
+          </text>
+        </g>
+      </svg>
+    </div>
+
+    <div id="rightDiv" style="display:none"></div>
+
+    <button id="updateGraphsButton" class="bluebutton" onclick="updateGraphs()">Update</button>
+  </span>
+  <div class="displaynone">
+    <input id="edgeString" value="1,2 1,3 1,4 2,5 1,6 6,7 4,8 4,9 8,10 6,11 11,12 3,13 3,14 3,15 3,16 16,17 3,9 5,10 1,9 7,10 5,12 4,7 5,11 8,13 3,17 3,12 3,4 12,15 3,7 7,12 9,15 4,17 5,14 2,13 10,15 1,8 8,9 9,10 7,13 2,6 4,15 11,17 1,5 1,16 9,16 10,17 1,15 6,13 1,10 9,14 8,11 6,8 5,13 8,16 2,17 8,17 6,9 14,17 5,16 2,11 13,17 6,17 15,16 13,15 6,16 10,12 2,7 6,12 4,10 10,14 13,16 7,16 4,6 11,15 6,15 2,3 9,12 7,17 2,15 14,15 1,12 10,11 4,12 11,13 3,11 13,14 5,17 4,13 9,17 9,13 1,7 7,14 5,6 15,17 1,14 4,11 11,16 3,6 1,17 2,14 12,14 2,8 1,13 5,8 6,14"/>
+    <input id="colourString"/>
+  </div>
+
+  <div class="botbar"></div>
+
+</body>
+
+  <!-- Constants -->
+  <script src="/static/scripts/formatting/constants.js"></script>
+
+  <!-- External Scripts -->
+  <script src="https://kit.fontawesome.com/228f400cae.js" crossorigin="anonymous"></script>
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+
+  <!-- Formatting -->
+  <script src="/static/scripts/formatting/formatText.js"></script>
+  <script src="/static/scripts/formatting/graphStrings.js"></script>
+
+  <!-- Canvas States -->
+  <script src="/static/scripts/canvasStates/controlEditModes.js"></script>
+  <script src="/static/scripts/canvasStates/focusVertices.js"></script>
+  <script src="/static/scripts/canvasStates/dragVertices.js"></script>
+  <script src="/static/scripts/canvasStates/addElements.js"></script>
+  <script src="/static/scripts/canvasStates/deleteElements.js"></script>
+
+  <!-- Graph Visuals -->
+  <script src="/static/scripts/graphVisuals/displayGraph.js"></script>
+  <script src="/static/scripts/graphVisuals/colourGraph.js"></script>
+  <script src="/static/scripts/graphVisuals/graphLayouts.js"></script>
+  <script src="/static/scripts/graphVisuals/panAndZoom.js"></script>
+
+  <!-- Actions -->
+  <script src="/static/scripts/actions/buttonFunctions.js"></script>
+  <script src="/static/scripts/actions/passiveActions.js"></script>
+  
+  <script src="/static/scripts/compare/compareController.js"></script>
+
+  <script src="/static/scripts/other.js"></script>
+
+  <script>
+    refreshEdgeTotal();
+    createAllTableEntries();
+
+    initialiseCompareGraphs();
+  </script>
+
+</html>

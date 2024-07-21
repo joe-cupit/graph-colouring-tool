@@ -1,0 +1,464 @@
+body {
+    margin:0;
+
+    accent-color: #7a6bb5;
+    background: #d6d1df;
+    color: #2E282A;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    cursor: default;
+}
+
+.hidden {
+    visibility: hidden;
+    line-height: 10px;
+}
+.displaynone {
+    display: none;
+}
+.nopadding {
+    display: block;
+    margin: 10px 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #dddae4;
+    /* border-radius: 3px; */
+}
+::-webkit-scrollbar-thumb {
+    background: #252138;
+    border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #4c4473;
+}
+
+/* Navbar */
+.topnav {
+    height: 45px;
+    position: relative;
+    background-color: #252138;
+    overflow: hidden;
+}
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    cursor: pointer;
+}
+.topnav a:hover {
+    background-color: #bfb9e4;
+    color: black;
+}
+.topnav a.active {
+    background-color: #7a6bb5;
+    color: white;
+}
+
+.topnav-centered {
+    float: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.botbar {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 20px;
+    padding: 2px 0;
+    color: white;
+    background-color: #252138;
+    font-size: 12px;
+}
+.botbar span {
+    float: right;
+    margin-right: 10px;
+}
+
+
+/* Divs */
+h1, h2, h3 {
+    margin: 1px;
+}
+#title {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 2.5em;
+}
+
+#mainDiv {
+    margin: auto;
+    margin-top: 0px;
+    width: 1400px;
+    height: 650px;
+}
+
+#leftDiv, #graphDiv, #rightDiv {
+    float: left;
+    width: 300px;
+    height: 100%;
+    /* padding: 5px; */
+    margin: 0 10px;
+    margin-top: 80px;
+}
+#leftDiv {
+    margin-top: 110px;
+}
+#graphDiv {
+    width: 700px;
+    margin: 10px;
+}
+#graphSVG {
+    border: 3px solid black;
+    border-radius: 3px;
+    background: white;
+}
+
+
+.controls {
+    position: relative;
+    float: top;
+    width: 95%;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    padding: 5px 10px;
+    margin-bottom: 10px;
+}
+
+#aboutDiv {
+    font-size: 1.2em;
+    margin-left: .5em;
+    transform: translate(0, -5px);
+}
+#rightAboutDiv {
+    float: right;
+    user-select: none;
+    transform: translate(0, 3px);
+    margin-right: 5px;
+}
+#rightAboutDiv i {
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-left: 3px;
+}
+#rightAboutDiv i:hover {
+    color: #3f375f;
+}
+
+#newgraphDiv {
+    height: 300px;
+}
+
+/* GENERATE DIV */
+#generateDiv {
+    height: 100px;
+    width: 100%;
+    position: relative;
+    overflow: clip;
+}
+#generateDiv h3 {
+    margin-top: 5px;
+}
+#generateDiv #vertexInput {
+    font-size: .9em;
+    width: 3.3em;
+}
+#generateDiv #edgeInput {
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0;
+    width: 80px;
+    cursor: pointer;
+}
+#generateDiv #generateButton {
+    position: absolute;
+    right: 15px;
+    bottom: 5px;
+}
+
+#loadDiv {
+    height: 160px;
+    width: 100%;
+    position: relative;
+    border-top: 1px solid black;
+    margin-top: 5px;
+}
+#loadDiv h3 {
+    margin-top: 5px;
+}
+#loadDiv form {
+    margin: 0;
+    width: 85%;
+    display:inline-block;
+    vertical-align: middle;
+    margin-top: 5px;
+}
+#loadDiv select {
+    font-size: 1.1em;
+    width: 100%;
+}
+#displayButton {
+    position: absolute;
+    right: 15px;
+    bottom: 8px;
+}
+#graphInput {
+    margin-top: 10px;
+}
+#loadDiv span {
+    margin-left: 10px;
+}
+
+#arrangeDiv {
+    height: 170px;
+}
+#arrangeDiv form {
+    user-select: none;
+}
+#arrangeDiv label {
+    cursor: pointer;
+}
+
+
+#colourDiv {
+    height: 190px;
+}
+#colourDiv form {
+    margin: 0;
+    width: 100%;
+}
+#colourDiv select {
+    margin-top: 4px;
+    font-size: 1.1em;
+    width: 100%;
+}
+#colourButton {
+    display: normal;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-52%);
+}
+
+#colourInfoDiv {
+    height: 50px;
+}
+#bottomColourDiv {
+    position: absolute;
+    bottom: 7px;
+}
+
+#histDiv {
+    height: 280px;
+}
+#historyDiv {
+    overflow: auto;
+    padding-left: 5px;
+    margin-top: 5px;
+    height: 84%;
+    font-size: .9em;
+    border-top: 2px solid #252138;
+    border-bottom: 1px solid #252138;
+    cursor: default;
+}
+.historytitle {
+    width: 100%;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 5px;
+    /* border-top: 1px solid black; */
+    cursor: pointer;
+}
+.historytitle:hover {
+    color: #7a6bb5;
+    /* text-decoration: none; */
+}
+
+#historyList li {
+    margin: 5px 0;
+}
+#historyList b {
+    cursor: pointer;
+}
+#historyList b:hover {
+    color: #7a6bb5;
+    /* text-decoration: underline; */
+}
+.historyinfo {
+    font-size: .9em;
+    margin-left: 10px;
+    margin-top: -5px;
+}
+
+#clearHistory {
+    cursor: pointer;
+    font-size: .9em;
+    position: absolute;
+    top: 18px;
+    right: 15px;
+}
+#clearHistory:hover {
+    color: #7a6bb5
+}
+
+/* FORMS & BUTTONS */
+.bluebutton {
+    font-size: .9em;
+    font-weight: bold;
+    background-color: #7a6bb5;
+    color: #fcfcfe;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.bluebutton:hover {
+    background-color: #9989d7;
+    color: white;
+}
+.bluebutton:active {
+    background-color: #9b89e1;
+    transition: none;
+}
+.bluebutton:disabled {
+    background-color: #756d98;
+    color: #b9b6c5;
+    cursor: default;
+}
+
+
+/* Graph Tabs */
+.tabs {
+    position: relative;
+    left: 1.5em;
+    bottom: -.28em;
+    width: 94%;
+}
+.tab {
+    float: left;
+    bottom: 0;
+}
+.tab-right {
+    float: right;
+    bottom: 0;
+}
+
+.tab-switch {
+    display: none;
+}
+
+.tab-label {
+    display: block;
+    line-height: 2em;
+    height: 2em;
+    margin-top: .3em;
+    padding: 0 1em;
+    background: #9b8ed2;
+    color: #12012d;
+    cursor: pointer;
+    bottom: 0;
+    border-left: 1px solid #3E2F5B;
+    border-right: 1px solid #3E2F5B;
+    border-bottom: 3px solid black;
+    border-top-left-radius: .2em;
+    border-top-right-radius: .2em;
+}
+
+.tab-label:hover {
+    background: #ada4d8;
+    transition: 0.2s;
+}
+
+.tab-switch:checked + .tab-label {
+    color: #2c3e50;
+    height: 2.15em;
+    margin-top: .15em;
+    z-index: 1;
+    border: 3px solid black;
+    transition: none;
+    border-bottom: none;
+    font-weight: bold;
+}
+
+#focusButton:checked + label {
+    background: white;
+}
+#addButton:checked + label {
+    background: #e8f3fc;
+}
+#delButton:checked + label {
+    background: #ffe8e6;
+}
+
+#clearButton:active + label {
+    background: #ef9489;
+    transition: .1s;
+}
+#clearButton:hover + label {
+    color: #990b0b;
+}
+
+#downloadTab {
+    display: block;
+    line-height: 2em;
+    height: 2em;
+    margin-top: .3em;
+    padding: 0 .5em;
+    bottom: 0;
+}
+#downloadGraphButton {
+    font-size: 1.3em;
+    cursor: pointer;
+    transform: translate(0, 2px);
+}
+#downloadGraphButton:hover {
+    color: #3f375f;
+}
+
+
+/* GRAPH SVG */
+svg#graphSVG {
+    width: 100%;
+    height: 100%;
+    margin: 2px;
+    user-select: none;
+
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); 
+}
+g.vertices {
+    cursor: pointer;
+}
+g.vertices circle {
+    fill: #897bc4;
+    stroke: black;
+    stroke-width: 2px
+}
+g.vertices text {
+    color: black;
+    stroke: black;
+    stroke-width: 1px;
+}
+#graphVertices circle:hover+text, #graphVertices text:hover {
+    stroke-width: 1.5px;
+}
+
+#aboutElements {
+    font-size: 1.4em;
+    paint-order: stroke;
+    stroke: white;
+    stroke-width: 3px;
+}
+#aboutElements tspan.bold {
+    font-weight: bold;
+}
